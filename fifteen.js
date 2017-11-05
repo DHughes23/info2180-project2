@@ -21,7 +21,7 @@ function startPage(){
 	shuffleButton.onclick = function(){
 		shuffle(pieces);
 	}
-	changeBackground(pieces, selection);
+	changeBackground(selection);
 	choosePicture();
 }
 
@@ -119,24 +119,25 @@ function tileMove(left, top){
 
 function shuffle(pieces){
 	var shuffleList = new Array();
-	for (var z = 0; z < 15; z++){
-		if (checkIfMoveable(pieces[z])){
-			shuffleList.push(pieces[z]);
+	for (var s=0; s < 500; s++){
+		for (var z = 0; z < 15; z++){
+			if (checkIfMoveable(pieces[z])){
+				shuffleList.push(pieces[z]);
+			}
 		}
+		var randomNumber = Math.floor(Math.random()*(shuffleList.length));
+		var chosenOne = shuffleList[randomNumber];
+		var givenSlot = tileMove(chosenOne.style.left, chosenOne.style.top);
+		chosenOne.style.left = givenSlot[0];
+		chosenOne.style.top = givenSlot[1];
 	}
-	var randomNumber = Math.floor(Math.random()*(shuffleList.length));
-	var chosenOne = shuffleList[randomNumber];
-	var givenSlot = tileMove(chosenOne.style.left, chosenOne.style.top);
-	chosenOne.style.left = givenSlot[0];
-	chosenOne.style.top = givenSlot[1];
-	console.log(shuffleList);
 }
 
-function changeBackground(pieces, selection){
+/*function changeBackground(pieces, selection){
 	for (var o = 0; o < pieces.length; o++){
 		pieces[o].style.backgroundImage = 'url('+selection+')';
 	}
-}
+}*/
 
 function choosePicture(){
 
@@ -159,20 +160,20 @@ function choosePicture(){
 	placement.appendChild(yang);
 
 	ruby.onclick = function(){
-		forceChangeBackground('background_ruby.jpg');
+		changeBackground('background_ruby.jpg');
 	}
 	weiss.onclick = function(){
-		forceChangeBackground('background.jpg');
+		changeBackground('background.jpg');
 	}
 	blake.onclick = function(){
-		forceChangeBackground('background_blake.jpg');
+		changeBackground('background_blake.jpg');
 	}
 	yang.onclick = function(){
-		forceChangeBackground('background_yang.jpg');
+		changeBackground('background_yang.jpg');
 	}
 }
 
-function forceChangeBackground(selection){
+function changeBackground(selection){
 	var pieces = document.getElementById("puzzlearea").getElementsByTagName("div");
 	for (var o = 0; o < pieces.length; o++){
 		pieces[o].style.backgroundImage = 'url('+selection+')';
