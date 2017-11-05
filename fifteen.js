@@ -1,6 +1,6 @@
 "use strict";
 //All pictures used have been found on Google Images.
-window.onload = choosePicture;
+//I have completed and would like to be graded on the "Multiple Backgrounds" extra feature.
 window.onload = startPage;
 var viewStartH = 0 ;
 var viewStartV = 0 ;
@@ -18,9 +18,9 @@ function startPage(){
 	var shuffleButton = document.getElementById("shufflebutton");	
 	placeTiles(pieces);
 	var selection = picture[randomPicNum];
-	shuffleButton.addEventListener("click", shuffle(pieces));
-	choosePicture();
+	shuffleButton.onclick = shuffle(pieces);
 	changeBackground(pieces, selection);
+	choosePicture();
 }
 
 function placeTiles(pieces){
@@ -145,25 +145,29 @@ function choosePicture(){
 	var blake = document.createElement("button");
 	var yang = document.createElement("button");
 
-	ruby.id = 'ruby';
-	weiss.id = 'weiss';
-	blake.id = 'blake';
-	yang.id = 'yang';
 
-	var ruby1 = document.createTextNode("Ruby");
-	var weiss1 = document.createTextNode("Weiss");
-	var blake1 = document.createTextNode("Blake");
-	var yang1 = document.createTextNode("Yang");
+	ruby.innerHTML = "Ruby";
+	weiss.innerHTML = "Weiss";
+	blake.innerHTML = "Blake";
+	yang.innerHTML = "Yang";
 
-	ruby.appendChild(ruby1);
-	weiss.appendChild(weiss1);
-	blake.appendChild(blake1);
-	yang.appendChild(yang1);
+	placement.appendChild(ruby);
+	placement.appendChild(weiss);
+	placement.appendChild(blake);
+	placement.appendChild(yang);
 
-	placement.append(ruby);
-	placement.append(weiss);
-	placement.append(blake);
-	placement.append(yang);
+	ruby.onclick = function(){
+		forceChangeBackground('background_ruby.jpg');
+	}
+	weiss.onclick = function(){
+		forceChangeBackground('background.jpg');
+	}
+	blake.onclick = function(){
+		forceChangeBackground('background_blake.jpg');
+	}
+	yang.onclick = function(){
+		forceChangeBackground('background_yang.jpg');
+	}
 }
 
 function forceChangeBackground(selection){
@@ -173,18 +177,17 @@ function forceChangeBackground(selection){
 	}
 }
 
-/*
-function startOthers(pieces){
+function startOthers(){
 	var ruby = document.getElementById('ruby');
 	var weiss = document.getElementById('weiss');
 	var blake = document.getElementById('blake');
 	var yang = document.getElementById('yang');
-	ruby.onclick = changeBackground(pieces, 'background_ruby.jpg');
-	weiss.onclick = changeBackground(pieces, 'background.jpg');
-	blake.onclick = changeBackground(pieces, 'background_blake.jpg');
-	yang.onclick = changeBackground(pieces, 'background_yang.jpg');
+	ruby.onclick = forceChangeBackground('background_ruby.jpg');
+	weiss.onclick = forceChangeBackground('background.jpg');
+	blake.onclick = forceChangeBackground('background_blake.jpg');
+	yang.onclick = forceChangeBackground('background_yang.jpg');
 }
-
+/*
 
 function t(){
 	let g=5;
