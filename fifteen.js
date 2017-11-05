@@ -1,53 +1,26 @@
 "use strict";
 //All pictures used have been found on Google Images.
-window.onload= startPage;
+window.onload = choosePicture;
+window.onload = startPage;
 var viewStartH = 0 ;
 var viewStartV = 0 ;
 var emptyLeft = '300px';
-var emptyTop = '300px';
-var shuffleButton = document.getElementById("shufflebutton");
+var emptyTop = '300px'
+
+
+
+
 
 function startPage(){
-	var pieces= document.getElementById("puzzlearea").getElementsByTagName("div");	
+	var picture = ['background.jpg','background_ruby.jpg','background_blake.jpg','background_yang.jpg'];
+	var randomPicNum = Math.floor(Math.random()*(picture.length));
+	var pieces = document.getElementById("puzzlearea").getElementsByTagName("div");
+	var shuffleButton = document.getElementById("shufflebutton");	
 	placeTiles(pieces);
-
-	moveableYes(pieces);
-}
-
-function moveableYes(pieces){
-	for (var a = 0; a < pieces.length ; a++){
-		if (pieces[a].onmouseover= checkIfMoveable(pieces[a])){
-			pieces[a].addEventListener("click", function(){
-				var changePositions = tileMove(this.style.left, this.style.top);
-				this.style.left = changePositions[0];
-				this.style.top = changePositions[1];
-			}
-		)}
-	}
-}
-
-function tileMove(left, top){
-	//Replaces the tile at the chosen locations with the location of the empty tile
-    var moveH = emptyLeft;
-    var moveV = emptyTop;
-    emptyLeft = left;
-    emptyTop = top;
- 	return [moveH, moveV];  
-}
-
-function checkIfMoveable(tile){
-	//Checks for tile placement next to empty tile so it can be moved
-	var canMove;
-	if ((parseInt(tile.style.left) - 100 + 'px') === emptyLeft && tile.style.top === emptyTop
-		|| (parseInt(tile.style.top) - 100+ 'px') === emptyTop && tile.style.left === emptyLeft
-		|| (parseInt(tile.style.left) + 100 + 'px') === emptyLeft && tile.style.top === emptyTop
-		|| (parseInt(tile.style.top) + 100 + 'px') === emptyTop && tile.style.left === emptyLeft){
-		tile.classList.add("moveablepiece");
-		canMove = true;
-	}else{
-		canMove = false;
-	}
-	return canMove;
+	var selection = picture[randomPicNum];
+	shuffleButton.addEventListener("click", shuffle(pieces));
+	choosePicture();
+	changeBackground(pieces, selection);
 }
 
 function placeTiles(pieces){
@@ -103,9 +76,116 @@ function placeTiles(pieces){
 			viewStartH -= 100;
 		}
 	}
+	moveableYes(pieces);
 }
 
-/* 
+function moveableYes(pieces){
+	for (var a = 0; a < pieces.length ; a++){
+		if (pieces[a].onmouseover= checkIfMoveable(pieces[a])){
+			pieces[a].addEventListener("click", function(){
+				var changePositions = tileMove(this.style.left, this.style.top);
+				this.style.left = changePositions[0];
+				this.style.top = changePositions[1];
+			}
+		)}
+	}
+}
+
+function checkIfMoveable(tile){
+	//Checks for tile placement next to empty tile so it can be moved
+	var canMove;
+	if ((parseInt(tile.style.left) - 100 + 'px') === emptyLeft && tile.style.top === emptyTop
+		|| (parseInt(tile.style.top) - 100 + 'px') === emptyTop && tile.style.left === emptyLeft
+		|| (parseInt(tile.style.left) + 100 + 'px') === emptyLeft && tile.style.top === emptyTop
+		|| (parseInt(tile.style.top) + 100 + 'px') === emptyTop && tile.style.left === emptyLeft){
+		tile.classList.add("moveablepiece");
+		canMove = true;
+	}else{
+		canMove = false;
+	}
+	return canMove;
+}
+
+function tileMove(left, top){
+	//Replaces the tile at the chosen locations with the location of the empty tile
+    var moveH = emptyLeft;
+    var moveV = emptyTop;
+    emptyLeft = left;
+    emptyTop = top;
+ 	return [moveH, moveV];  
+}
+
+function shuffle(pieces){
+	var shuffleList = new Array();
+	for (var z = 0; z < 15; z++){
+		if (checkIfMoveable(pieces[z])){
+			shuffleList.push(pieces[z]);
+		}
+	}
+	var randomNumber = Math.floor(Math.random()*(shuffleList.length));
+	var chosenOne = shuffleList[randomNumber];
+	var givenSlot = tileMove(chosenOne.style.left, chosenOne.style.top);
+	chosenOne.style.left = givenSlot[0];
+	chosenOne.style.top = givenSlot[1];
+	console.log(shuffleList);
+}
+
+function changeBackground(pieces, selection){
+	for (var o = 0; o < pieces.length; o++){
+		pieces[o].style.backgroundImage = 'url('+selection+')';
+	}
+}
+
+function choosePicture(){
+
+	var placement = document.getElementById("controls");
+
+	var weiss = document.createElement("button");
+	var ruby = document.createElement("button");
+	var blake = document.createElement("button");
+	var yang = document.createElement("button");
+
+	ruby.id = 'ruby';
+	weiss.id = 'weiss';
+	blake.id = 'blake';
+	yang.id = 'yang';
+
+	var ruby1 = document.createTextNode("Ruby");
+	var weiss1 = document.createTextNode("Weiss");
+	var blake1 = document.createTextNode("Blake");
+	var yang1 = document.createTextNode("Yang");
+
+	ruby.appendChild(ruby1);
+	weiss.appendChild(weiss1);
+	blake.appendChild(blake1);
+	yang.appendChild(yang1);
+
+	placement.append(ruby);
+	placement.append(weiss);
+	placement.append(blake);
+	placement.append(yang);
+}
+
+function forceChangeBackground(selection){
+	var pieces = document.getElementById("puzzlearea").getElementsByTagName("div");
+	for (var o = 0; o < pieces.length; o++){
+		pieces[o].style.backgroundImage = 'url('+selection+')';
+	}
+}
+
+/*
+function startOthers(pieces){
+	var ruby = document.getElementById('ruby');
+	var weiss = document.getElementById('weiss');
+	var blake = document.getElementById('blake');
+	var yang = document.getElementById('yang');
+	ruby.onclick = changeBackground(pieces, 'background_ruby.jpg');
+	weiss.onclick = changeBackground(pieces, 'background.jpg');
+	blake.onclick = changeBackground(pieces, 'background_blake.jpg');
+	yang.onclick = changeBackground(pieces, 'background_yang.jpg');
+}
+
+
 function t(){
 	let g=5;
 	console.log(g);
