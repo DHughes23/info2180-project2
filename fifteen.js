@@ -12,6 +12,7 @@ var emptyTop = '300px'
 
 
 function startPage(){
+	//Page start up function
 	var picture = ['background.jpg','background_ruby.jpg','background_blake.jpg','background_yang.jpg'];
 	var randomPicNum = Math.floor(Math.random()*(picture.length));
 	var pieces = document.getElementById("puzzlearea").getElementsByTagName("div");
@@ -82,14 +83,17 @@ function placeTiles(pieces){
 }
 
 function moveableYes(pieces){
+	//Checks to see if a tile can be moved
 	for (var a = 0; a < pieces.length ; a++){
-		if (pieces[a].onmouseover= checkIfMoveable(pieces[a])){
+		if (pieces[a].onmouseover = checkIfMoveable(pieces[a])){
 			pieces[a].addEventListener("click", function(){
 				var changePositions = tileMove(this.style.left, this.style.top);
 				this.style.left = changePositions[0];
 				this.style.top = changePositions[1];
 			}
-		)}
+		)}else if (pieces[a].onmouseout != checkIfMoveable(pieces[a])) {
+				pieces[a].classList.remove("moveablepiece");
+			}
 	}
 }
 
@@ -118,6 +122,7 @@ function tileMove(left, top){
 }
 
 function shuffle(pieces){
+	//Moves one tile at a time taking into account that the moved tile must be next to the empty space
 	var shuffleList = new Array();
 	for (var s=0; s < 500; s++){
 		for (var z = 0; z < 15; z++){
@@ -133,14 +138,8 @@ function shuffle(pieces){
 	}
 }
 
-/*function changeBackground(pieces, selection){
-	for (var o = 0; o < pieces.length; o++){
-		pieces[o].style.backgroundImage = 'url('+selection+')';
-	}
-}*/
-
 function choosePicture(){
-
+	//Creates the buttons needed to select different backgrounds and places them on the board
 	var placement = document.getElementById("controls");
 
 	var weiss = document.createElement("button");
@@ -159,6 +158,7 @@ function choosePicture(){
 	placement.appendChild(blake);
 	placement.appendChild(yang);
 
+	//Selects different backgrounds as soon as the buttons are clicked 
 	ruby.onclick = function(){
 		changeBackground('background_ruby.jpg');
 	}
@@ -174,22 +174,13 @@ function choosePicture(){
 }
 
 function changeBackground(selection){
+	//Used to change the background for each individual tile
 	var pieces = document.getElementById("puzzlearea").getElementsByTagName("div");
 	for (var o = 0; o < pieces.length; o++){
 		pieces[o].style.backgroundImage = 'url('+selection+')';
 	}
 }
 
-function startOthers(){
-	var ruby = document.getElementById('ruby');
-	var weiss = document.getElementById('weiss');
-	var blake = document.getElementById('blake');
-	var yang = document.getElementById('yang');
-	ruby.onclick = forceChangeBackground('background_ruby.jpg');
-	weiss.onclick = forceChangeBackground('background.jpg');
-	blake.onclick = forceChangeBackground('background_blake.jpg');
-	yang.onclick = forceChangeBackground('background_yang.jpg');
-}
 /*
 
 function t(){
