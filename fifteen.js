@@ -18,7 +18,9 @@ function startPage(){
 	var shuffleButton = document.getElementById("shufflebutton");	
 	placeTiles(pieces);
 	var selection = picture[randomPicNum];
-	shuffleButton.onclick = shuffle(pieces);
+	shuffleButton.onclick = function(){
+		shuffle(pieces);
+	}
 	changeBackground(pieces, selection);
 	choosePicture();
 }
