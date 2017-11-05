@@ -18,12 +18,13 @@ function startPage(){
 	var pieces = document.getElementById("puzzlearea").getElementsByTagName("div");
 	var shuffleButton = document.getElementById("shufflebutton");	
 	placeTiles(pieces);
+	choosePicture();
 	var selection = picture[randomPicNum];
+	changeBackground(selection);
 	shuffleButton.onclick = function(){
 		shuffle(pieces);
+		moveableYes(pieces);
 	}
-	changeBackground(selection);
-	choosePicture();
 }
 
 function placeTiles(pieces){
@@ -79,32 +80,42 @@ function placeTiles(pieces){
 			viewStartH -= 100;
 		}
 	}
-	moveableYes(pieces);
 }
 
 function moveableYes(pieces){
 	//Checks to see if a tile can be moved
 	for (var a = 0; a < pieces.length ; a++){
-		if (pieces[a].onmouseover = checkIfMoveable(pieces[a])){
-			pieces[a].addEventListener("click", function(){
+		
+		pieces[a].onmouseover = function(){
+			if(checkIfMoveable(this)){
+				this.classList.add("moveablepiece");
+			}
+		}
+
+		pieces[a].onmouseout = function(){
+			this.classList.remove("moveablepiece");
+		}
+
+		//Moves the tiles accordingly
+		pieces[a].onclick = function(){
+			if(checkIfMoveable(this)){
 				var changePositions = tileMove(this.style.left, this.style.top);
 				this.style.left = changePositions[0];
 				this.style.top = changePositions[1];
+				moveableYes(pieces);
 			}
-		)}else if (pieces[a].onmouseout != checkIfMoveable(pieces[a])) {
-				pieces[a].classList.remove("moveablepiece");
-			}
+		}
 	}
 }
 
 function checkIfMoveable(tile){
 	//Checks for tile placement next to empty tile so it can be moved
 	var canMove;
-	if ((parseInt(tile.style.left) - 100 + 'px') === emptyLeft && tile.style.top === emptyTop
-		|| (parseInt(tile.style.top) - 100 + 'px') === emptyTop && tile.style.left === emptyLeft
-		|| (parseInt(tile.style.left) + 100 + 'px') === emptyLeft && tile.style.top === emptyTop
-		|| (parseInt(tile.style.top) + 100 + 'px') === emptyTop && tile.style.left === emptyLeft){
-		tile.classList.add("moveablepiece");
+	var piece = tile;
+	if ((parseInt(piece.style.left) - 100 + 'px') === emptyLeft && piece.style.top === emptyTop
+		|| (parseInt(piece.style.top) - 100 + 'px') === emptyTop && piece.style.left === emptyLeft
+		|| (parseInt(piece.style.left) + 100 + 'px') === emptyLeft && piece.style.top === emptyTop
+		|| (parseInt(piece.style.top) + 100 + 'px') === emptyTop && piece.style.left === emptyLeft){
 		canMove = true;
 	}else{
 		canMove = false;
@@ -180,39 +191,3 @@ function changeBackground(selection){
 		pieces[o].style.backgroundImage = 'url('+selection+')';
 	}
 }
-
-/*
-
-function t(){
-	let g=5;
-	console.log(g);
-}
-
-var puzzlEArea = $("#puzzlearea")
-var tiles = puzzlEArea.children();
-console.log(tiles);
-for (n=0; n < tiles.length; n++){
-	tile=tiles[n]
-	tile.addClass(puzzlepieces)
-}
-tiles.each(){
-	tile= $this;
-	tile.addClass;
-}*/
-
-
-/*function pictureBack(pieces){
-	pieces.style.backgroundPoistion = viewStartH + 'px ' + viewStartV + 'px';
-	viewStartH += 100;
-}
-
-function boardPieces(tilea){
-	var c=0;
-	for (var i=0 ; i < 15; i++){
-		for (var j=0 ; j < 15; j++){
-		numArray[c] = tilea[i][j];
-		}
-	}
-	c++;
-}*/
-
