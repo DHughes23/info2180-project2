@@ -110,17 +110,15 @@ function moveableYes(pieces){
 
 function checkIfMoveable(tile){
 	//Checks for tile placement next to empty tile so it can be moved
-	var canMove;
 	var piece = tile;
 	if ((parseInt(piece.style.left) - 100 + 'px') === emptyLeft && piece.style.top === emptyTop
 		|| (parseInt(piece.style.top) - 100 + 'px') === emptyTop && piece.style.left === emptyLeft
 		|| (parseInt(piece.style.left) + 100 + 'px') === emptyLeft && piece.style.top === emptyTop
 		|| (parseInt(piece.style.top) + 100 + 'px') === emptyTop && piece.style.left === emptyLeft){
-		canMove = true;
+		return true;
 	}else{
-		canMove = false;
+		return false;
 	}
-	return canMove;
 }
 
 function tileMove(left, top){
